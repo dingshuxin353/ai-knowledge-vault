@@ -1,35 +1,22 @@
 # ai-knowledge-vault
 
-`ai-knowledge-vault` 是一个面向 Obsidian + Claude Code 的本地优先 AI 知识库模板。  
-它要解决的不是“记更多笔记”，而是把原始资料、结构化知识、检索问答和持续体检串成可积累的系统。
+`ai-knowledge-vault` 是一个面向 Obsidian + Claude Code 的本地优先 AI 知识库模板：用 Markdown 管理 `knowledge/` 下的条目、索引与收件箱。
 
 英文说明见 [README.en.md](./README.en.md)。
 
-## 这是什么（2.0 定位）
+## 这是什么
 
-这个仓库是你在个人 AI 知识库实践上的 **2.0 升级**：  
-方法论上受 Andrej Karpathy 的个人知识库工作流启发，工程化上落地为可复用目录规范、CLI 命令和 Obsidian 可视化前端。
+这是我在自己一直在用的 **AI 知识库** 做法上继续迭代的一版：1.0版本说明我写在飞书（[知识沉淀，需登录](https://mcndg9yue1j0.feishu.cn/wiki/D6rPw8SnVizcq3kbtIVcqtAKn3f)）。在这个仓库里，我把那套思路开源成可直接克隆的目录约定，并吸收了 **Andrej Karpathy** 公开分享过的个人知识库想法——原始材料先进库、再由模型参与整理成可浏览的 Markdown 结构、平时以问答和报告迭代、辅以体检把结构保持干净。
 
-简化理解：
+## 主要特性
 
-- 1.0：能用的个人流程和脚本
-- 2.0：可复用的知识库模板 + 明确的输入/处理/输出闭环 + 持续健康检查机制
-
-## 为什么值得用
-
-- **更高检索效率**：先查索引和概念层，再按需读原文，降低大模型全量扫描成本。
-- **更强可追溯性**：知识条目保留完整 `原始内容`，结论可以回溯到来源证据。
-- **更可持续维护**：`compile/find/health/tidy` 让知识网络能持续进化，而不是越积越乱。
-
-## 方法来源与本项目映射
-
-Karpathy 提到的 `raw -> LLM compile wiki -> Q&A -> 输出回灌 -> health checks`，在本项目中对应为：
-
-- `raw 数据收集` -> `knowledge/inbox/manual/pending/` 和 `knowledge/inbox/video/raw/`
-- `LLM 编译 wiki` -> `python3 .claude/skills/kb/scripts/knowledge_ops.py compile`
-- `Q&A against wiki` -> `python3 .claude/skills/kb/scripts/knowledge_ops.py find "query"`
-- `输出回灌知识库` -> 查询/分析产物沉淀到 `knowledge/reports/`，并可继续纳入知识条目
-- `linting / health checks` -> `python3 .claude/skills/kb/scripts/knowledge_ops.py health` 与 `tidy`
+- **本地优先**：内容落在 `knowledge/*.md`，Obsidian 打开即可协作阅读。
+- **inbox → 正式条目**：手动素材走 `inbox/manual/`（`pending` / `processed` / `review`）；音视频可走 `inbox/video/` 并可选转写。
+- **先索引再深入**：`knowledge/_index.md` 与 `knowledge/concepts/` 适合作为检索入口，需要细节再打开单篇的 `## 原始内容`。
+- **编译与导航**：`compile` 维护概念层与索引关联。
+- **查询可沉淀**：`find` 支持把主题检索整理进 `knowledge/reports/`。
+- **健康与整理**：`health` / `tidy` 做结构检查与归一化。
+- **Claude Code**：`.claude/skills/kb/` 提供 `/kb` 工作流（见 `.claude/skills/kb/SKILL.md`）。
 
 ## 系统逻辑闭环
 
@@ -102,7 +89,7 @@ python3 .claude/skills/kb/scripts/knowledge_ops.py find "你的主题关键词"
 python3 .claude/skills/kb/scripts/knowledge_ops.py health
 ```
 
-你应当看到的产物：
+按上述步骤执行后，预期会得到类似产物：
 
 - 知识条目：`knowledge/*.md`
 - 概念层：`knowledge/concepts/*.md`
@@ -136,7 +123,7 @@ knowledge/
 docs/
 ```
 
-说明：本仓库是模板形态，`knowledge/concepts/` 的完整内容通常由你运行 `compile` 后逐步生成。
+说明：本仓库以模板形式分发，`knowledge/concepts/` 下的概念页通常需要在本地运行 `compile` 后逐步生成。
 
 ## 可选能力：视频/音频转写
 
@@ -152,7 +139,7 @@ docs/
 python3 .claude/skills/kb/scripts/video_ingest.py
 ```
 
-更多细节见 [`docs/video-transcription.md`](./docs/video-transcription.md)。
+更多细节见 `[docs/video-transcription.md](./docs/video-transcription.md)`。
 
 ## 适合谁 / 不适合谁
 
@@ -169,19 +156,19 @@ python3 .claude/skills/kb/scripts/video_ingest.py
 
 ## 文档入口
 
-- 架构说明：[`docs/architecture.md`](./docs/architecture.md)
-- 安装指南：[`docs/installation.md`](./docs/installation.md)
-- 视频转写说明：[`docs/video-transcription.md`](./docs/video-transcription.md)
-- 概念层目录说明：[`knowledge/concepts/README.md`](./knowledge/concepts/README.md)
-- 报告目录说明：[`knowledge/reports/README.md`](./knowledge/reports/README.md)
-- 手动入库目录说明：[`knowledge/inbox/manual/README.md`](./knowledge/inbox/manual/README.md)
-- 视频入库目录说明：[`knowledge/inbox/video/README.md`](./knowledge/inbox/video/README.md)
+- 架构说明：`[docs/architecture.md](./docs/architecture.md)`
+- 安装指南：`[docs/installation.md](./docs/installation.md)`
+- 视频转写说明：`[docs/video-transcription.md](./docs/video-transcription.md)`
+- 概念层目录说明：`[knowledge/concepts/README.md](./knowledge/concepts/README.md)`
+- 报告目录说明：`[knowledge/reports/README.md](./knowledge/reports/README.md)`
+- 手动入库目录说明：`[knowledge/inbox/manual/README.md](./knowledge/inbox/manual/README.md)`
+- 视频入库目录说明：`[knowledge/inbox/video/README.md](./knowledge/inbox/video/README.md)`
 
 ## 下一步建议
 
-- 先放 5-10 篇原始材料到 `knowledge/inbox/manual/pending/`
-- 跑一次 `compile + find + health` 看概念层和报告如何联动
-- 根据你的研究主题扩展 `.claude/skills/kb/scripts/` 的处理策略
+- 先向 `knowledge/inbox/manual/pending/` 放入少量原始材料试跑
+- 执行一次 `compile + find + health`，观察概念层与报告如何联动
+- 按自身主题与领域，扩展 `.claude/skills/kb/scripts/` 中的处理策略
 
 ## 开源许可
 

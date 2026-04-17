@@ -1,35 +1,22 @@
 # ai-knowledge-vault
 
-`ai-knowledge-vault` is a local-first AI knowledge vault template for Obsidian + Claude Code.  
-It is designed not to help you "take more notes", but to connect raw sources, structured knowledge, query outputs, and ongoing health checks into one compounding system.
+`ai-knowledge-vault` is a local-first AI knowledge vault template for Obsidian + Claude Code: Markdown-first `knowledge/` entries, index, and inbox.
 
 Chinese documentation: [README.md](./README.md)
 
-## What This Is (2.0 Positioning)
+## What This Is
 
-This repository is the **2.0 upgrade** of your personal AI knowledge vault workflow:  
-inspired by Andrej Karpathy's knowledge workflow, and engineered into a reusable structure with clear directories, CLI commands, and an Obsidian-native frontend.
+This repo is my updated take on an **AI knowledge base** I already run day to day. I wrote the longer story in Feishu ([knowledge notes, login required](https://mcndg9yue1j0.feishu.cn/wiki/D6rPw8SnVizcq3kbtIVcqtAKn3f)). Here I open-sourced the same direction as a cloneable layout, and folded in ideas **Andrej Karpathy** has shared publicly about LLM-maintained Markdown knowledge: ingest raw sources, compile a navigable wiki, iterate through Q&A and saved outputs, and run periodic health checks to keep the graph tidy.
 
-In short:
+## Key Features
 
-- 1.0: personal scripts and ad-hoc workflow
-- 2.0: reusable vault template + explicit input/process/output loop + continuous health checks
-
-## Why It Matters
-
-- **Higher retrieval efficiency**: read index + concept layer first, then expand raw evidence only when needed.
-- **Better traceability**: entries keep full `Original Content`, so conclusions can be traced back to sources.
-- **Sustainable maintenance**: `compile/find/health/tidy` keeps the vault evolving instead of degrading over time.
-
-## Method Lineage and Project Mapping
-
-Karpathy's `raw -> LLM compile wiki -> Q&A -> output feedback loop -> health checks` maps to this repo as:
-
-- `raw data ingest` -> `knowledge/inbox/manual/pending/` and `knowledge/inbox/video/raw/`
-- `LLM compile wiki` -> `python3 .claude/skills/kb/scripts/knowledge_ops.py compile`
-- `Q&A against wiki` -> `python3 .claude/skills/kb/scripts/knowledge_ops.py find "query"`
-- `output feedback loop` -> query outputs accumulate in `knowledge/reports/` and can be promoted back into entries
-- `linting / health checks` -> `python3 .claude/skills/kb/scripts/knowledge_ops.py health` and `tidy`
+- **Local-first**: content lives under `knowledge/*.md` and opens cleanly in Obsidian.
+- **Inbox to entries**: manual capture under `inbox/manual/` (`pending` / `processed` / `review`); media under `inbox/video/` with optional transcription.
+- **Index before deep reads**: start from `knowledge/_index.md` and `knowledge/concepts/`, then open `## Original Content` only when you need evidence.
+- **Compile & navigate**: `compile` keeps concepts and index wiring fresh.
+- **Searchable reports**: `find` can persist topic digests into `knowledge/reports/`.
+- **Health & tidy**: `health` / `tidy` for structural checks and normalization.
+- **Claude Code skill**: `.claude/skills/kb/` exposes `/kb` workflows (see [`.claude/skills/kb/SKILL.md`](./.claude/skills/kb/SKILL.md)).
 
 ## System Loop
 

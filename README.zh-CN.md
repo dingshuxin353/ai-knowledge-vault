@@ -35,9 +35,9 @@
 这个项目默认采用“两层检索”：
 
 - 第一层：读取 `knowledge/_index.md` 和 `knowledge/concepts/*.md`
-  这里解决“去哪里找”和“主题范围是什么”
+这里解决“去哪里找”和“主题范围是什么”
 - 第二层：按需打开具体知识条目的 `## 原始内容`
-  这里解决“细节证据是什么”
+这里解决“细节证据是什么”
 
 这样做的好处是：
 
@@ -92,13 +92,13 @@ python3 .claude/skills/kb/scripts/video_ingest.py
 
 ## 文档
 
-- 架构说明：[`docs/architecture.md`](./docs/architecture.md)
-- 安装指南：[`docs/installation.md`](./docs/installation.md)
-- 视频转写说明：[`docs/video-transcription.md`](./docs/video-transcription.md)
-- 概念层目录说明：[`knowledge/concepts/README.md`](./knowledge/concepts/README.md)
-- 报告目录说明：[`knowledge/reports/README.md`](./knowledge/reports/README.md)
-- 手动收集目录说明：[`knowledge/inbox/manual/README.md`](./knowledge/inbox/manual/README.md)
-- 视频转写目录说明：[`knowledge/inbox/video/README.md`](./knowledge/inbox/video/README.md)
+- 架构说明：`[docs/architecture.md](./docs/architecture.md)`
+- 安装指南：`[docs/installation.md](./docs/installation.md)`
+- 视频转写说明：`[docs/video-transcription.md](./docs/video-transcription.md)`
+- 概念层目录说明：`[knowledge/concepts/README.md](./knowledge/concepts/README.md)`
+- 报告目录说明：`[knowledge/reports/README.md](./knowledge/reports/README.md)`
+- 手动收集目录说明：`[knowledge/inbox/manual/README.md](./knowledge/inbox/manual/README.md)`
+- 视频转写目录说明：`[knowledge/inbox/video/README.md](./knowledge/inbox/video/README.md)`
 
 ## 接下来可以做什么
 
