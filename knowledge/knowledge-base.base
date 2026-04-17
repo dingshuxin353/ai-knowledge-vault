@@ -1,0 +1,68 @@
+filters:
+  and:
+  - file.inFolder("knowledge")
+  - file.folder == "knowledge"
+  - file.name != "_index.md"
+  - file.name != "CLAUDE.md"
+  - file.name != "AGENTS.md"
+formulas:
+  tag_count: list(tags).length
+  concept_count: list(concepts).length
+  related_count: list(related).length
+  days_since_capture: (today() - date(date)).days
+properties:
+  date:
+    displayName: Date
+  source:
+    displayName: Source
+  source_type:
+    displayName: Type
+  tags:
+    displayName: Tags
+  concepts:
+    displayName: Concepts
+  confidence:
+    displayName: Confidence
+  formula.tag_count:
+    displayName: Tag Count
+  formula.concept_count:
+    displayName: Concept Count
+  formula.related_count:
+    displayName: Related Count
+  formula.days_since_capture:
+    displayName: Days Since Capture
+views:
+- type: table
+  name: Knowledge Entries
+  order:
+  - date
+  - file.name
+  - source
+  - source_type
+  - tags
+  - concepts
+  - confidence
+  summaries:
+    formula.tag_count: Average
+    formula.concept_count: Average
+    formula.related_count: Average
+- type: cards
+  name: By Concept
+  groupBy:
+    property: concepts
+    direction: ASC
+  order:
+  - file.name
+  - concepts
+  - source
+  - tags
+  - confidence
+- type: list
+  name: Recent Processed
+  filters:
+    and:
+    - confidence == "processed"
+  order:
+  - date
+  - file.name
+  - concepts

@@ -1,0 +1,5 @@
+{
+  "dashscope_api_key": "",
+  "dashscope_base_url": "https://dashscope.aliyuncs.com/api/v1",
+  "asr_model": "qwen3-asr-flash"
+}

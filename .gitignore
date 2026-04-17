@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Local config
+config.local.json
+sync.config.json
+.sync-map.json
+
+# Obsidian
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Media work files
+knowledge/inbox/video/work/**
+knowledge/inbox/video/raw/*.mp4
+knowledge/inbox/video/raw/*.mov
+knowledge/inbox/video/raw/*.mkv
+knowledge/inbox/video/raw/*.m4a
+knowledge/inbox/video/raw/*.mp3
+knowledge/inbox/video/raw/*.wav
