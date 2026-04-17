@@ -40,6 +40,23 @@ python3 .claude/skills/kb/scripts/knowledge_ops.py compile
 python3 .claude/skills/kb/scripts/knowledge_ops.py health
 ```
 
+## Do I Need Obsidian Plugins?
+
+No.
+
+This repository works as plain Markdown plus Python scripts, so users do not need to install any Obsidian plugin to get started.
+
+Optional plugins only improve the in-Obsidian experience:
+
+- `Dataview`: useful for the query blocks generated in concept pages
+- `Bases`: useful if you want to browse `knowledge/knowledge-base.base`
+
+So the dependency levels are:
+
+- required: no Obsidian plugin
+- recommended: Obsidian itself
+- optional: `Dataview`, `Bases`
+
 ## How It Works
 
 - `knowledge/*.md` stores raw knowledge entries with metadata, summaries, and full source content
@@ -70,6 +87,13 @@ knowledge/
 .claude/skills/kb/
 docs/
 ```
+
+Useful folder guides:
+
+- [`knowledge/concepts/README.md`](./knowledge/concepts/README.md)
+- [`knowledge/reports/README.md`](./knowledge/reports/README.md)
+- [`knowledge/inbox/manual/README.md`](./knowledge/inbox/manual/README.md)
+- [`knowledge/inbox/video/README.md`](./knowledge/inbox/video/README.md)
 
 ## Documentation
 

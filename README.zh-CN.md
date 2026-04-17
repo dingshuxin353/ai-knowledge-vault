@@ -51,6 +51,19 @@
 
 直接用 Obsidian 打开本仓库即可。
 
+不需要先安装任何 Obsidian 插件。
+
+可选增强项：
+
+- `Dataview`：用于更好地查看概念页中的查询块
+- `Bases`：用于浏览 `knowledge/knowledge-base.base`
+
+所以可以这样理解：
+
+- 必需：不需要任何 Obsidian 插件
+- 推荐：使用 Obsidian 打开仓库
+- 可选：安装 `Dataview`、`Bases`
+
 ### 作为 Claude Code skill
 
 将 `.claude/skills/kb/` 复制或链接到你的 Claude Code skills 目录，然后在会话中使用 `/kb ...`。
@@ -82,6 +95,10 @@ python3 .claude/skills/kb/scripts/video_ingest.py
 - 架构说明：[`docs/architecture.md`](./docs/architecture.md)
 - 安装指南：[`docs/installation.md`](./docs/installation.md)
 - 视频转写说明：[`docs/video-transcription.md`](./docs/video-transcription.md)
+- 概念层目录说明：[`knowledge/concepts/README.md`](./knowledge/concepts/README.md)
+- 报告目录说明：[`knowledge/reports/README.md`](./knowledge/reports/README.md)
+- 手动收集目录说明：[`knowledge/inbox/manual/README.md`](./knowledge/inbox/manual/README.md)
+- 视频转写目录说明：[`knowledge/inbox/video/README.md`](./knowledge/inbox/video/README.md)
 
 ## 接下来可以做什么
 
