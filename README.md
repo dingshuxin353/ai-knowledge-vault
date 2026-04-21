@@ -6,7 +6,8 @@
 
 ## 这是什么
 
-这是我在自己一直在用的 **AI 知识库** 做法上继续迭代的一版：1.0版本说明我写在飞书（https://mcndg9yue1j0.feishu.cn/wiki/D6rPw8SnVizcq3kbtIVcqtAKn3f）。在这个仓库里，我把那套思路开源成可直接克隆的目录约定，并吸收了 **Andrej Karpathy** 公开分享过的个人知识库想法——原始材料先进库、再由模型参与整理成可浏览的 Markdown 结构、平时以问答和报告迭代、辅以体检把结构保持干净。
+这是我在自己一直在用的 **AI 知识库** 做法上继续迭代的一版：1.0版本说明我写在飞书（https://mcndg9yue1j0.feishu.cn/wiki/D6rPw8SnVizcq3kbtIVcqtAKn3f）。
+在这个仓库里，我把那套思路开源成可直接克隆的目录约定，并吸收了 **Andrej Karpathy** 公开分享过的个人知识库想法——原始材料先进库、再由模型参与整理成可浏览的 Markdown 结构、平时以问答和报告迭代、辅以体检把结构保持干净。
 
 ## 主要特性
 
