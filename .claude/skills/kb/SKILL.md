@@ -25,6 +25,7 @@ Manage the `knowledge/` directory in this repository as a reusable AI knowledge 
 - Reuse existing tags and concept names when possible
 - Prefer local config files for API keys; use environment variables as fallback
 - Treat `knowledge/concepts/` as the primary navigation layer and `knowledge/reports/` as reusable query output
+- `/kb add` and `/kb process-pending` use the same ingestion action: first produce a pending Markdown source with frontmatter, then create the normalized entry, update the index, and archive the source
 
 ## Workflows
 
@@ -47,9 +48,45 @@ Add a single piece of knowledge from text, notes, or a URL.
 
 Expected behavior:
 1. Detect source type
-2. Read `knowledge/_index.md` for nearby tags and concepts
-3. Write a structured entry with frontmatter, `核心观点`, optional `我的思考`, and full `原始内容`
-4. Update `knowledge/_index.md`
+2. If the input is a URL, prefer Defuddle CLI to fetch clean Markdown content instead of WebFetch:
+
+```bash
+defuddle parse "<URL>" --md -o "knowledge/inbox/manual/pending/YYYY-MM-DD-short-title.md"
+```
+
+   If title or domain metadata is needed, use:
+
+```bash
+defuddle parse "<URL>" -p title
+defuddle parse "<URL>" -p domain
+```
+
+   The pending file must include frontmatter:
+   - `date`
+   - `source`
+   - `source_type`
+   - `source_url`
+   - `tags` (can start as an empty list and be finalized during ingestion)
+   - `confidence: raw`
+
+   Keep the full Defuddle Markdown output as the body without truncation.
+3. If the input is pasted text or notes, also write it first to `knowledge/inbox/manual/pending/YYYY-MM-DD-short-title.md` with the same frontmatter and full original body
+4. Process the new pending source using the same action as `/kb process-pending`:
+   - Read `knowledge/_index.md` for existing tags, concepts, and recent entries
+   - Summarize 1-3 key points with the current agent
+   - Optionally add `我的思考`
+   - Choose tags by reusing existing names when possible
+   - Choose related concepts from the index concept navigation
+   - Write a normalized entry to `knowledge/YYYY-MM-DD-title.md`
+   - Preserve the pending file body under `## 原始内容`
+   - Update `knowledge/_index.md`
+   - Move the pending source to `knowledge/inbox/manual/processed/`
+5. Return the created entry path, tags, related concepts, and suggested links to existing entries
+
+Fallbacks:
+- If `defuddle` is not installed, install it with `npm install -g defuddle-cli`
+- If Defuddle cannot fetch meaningful content, try another reader; if that still fails, keep a URL-only pending source with `confidence: raw` and move it to `knowledge/inbox/manual/review/`
+- If Defuddle output is too short, mostly navigation, or lacks substantive body content, do not ingest it directly; move it to `review/`
 
 ### 3) `/kb find`
 
