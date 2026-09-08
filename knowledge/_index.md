@@ -1,16 +1,13 @@
-# Knowledge Vault Index
+# 知识库索引
 
-> Last updated: 2026-04-17 | Entries: 1 | Concepts: 1
-> Start from concept pages first, then open full entries only when you need detail.
+从概念或条目进入并阅读来源；知识库当前为空。
 
-## Concept Navigation
+## 概念导航
 
-### 第二大脑
-- [[concepts/第二大脑|第二大脑]]
-- Focus: build a local-first knowledge system where notes, concepts, and reports can be maintained by both humans and AI.
+| 概念 | 范围 |
+| --- | --- |
 
-## Recent Entries
+## 知识条目
 
-| Date | Title | Tags | Entry |
-|------|------|------|------|
-| 2026-03-10 | Claude Code 实战指南 | Claude Code, 工作流 | [[2026-03-10-Claude-Code实战指南|Full entry]] |
+| 日期 | 标题 | 摘要 |
+| --- | --- | --- |

@@ -1,176 +1,69 @@
-# ai-knowledge-vault
+# LLM Wiki
 
-`ai-knowledge-vault` 是一个面向 Obsidian + Claude Code 的本地优先 AI 知识库模板：用 Markdown 管理 `knowledge/` 下的条目、索引与收件箱。
+让 AI 帮你收录材料、查找知识，并在回答中给出来源。
 
-英文说明见 [README.en.md](./README.en.md)。
+LLM Wiki 是一套由 Agent 维护的本地 Markdown 知识库模板。把它接入自己的项目后，就可以用自然语言保存读书笔记、课程资料和工作经验，也可以在新的对话中继续查询这些材料。
 
-## 这是什么
+资料保存在你的项目里，可以直接阅读和编辑。模板从空库开始，知识主题由你提供的材料决定。
 
-这是我在自己一直在用的 **AI 知识库** 做法上继续迭代的一版：1.0版本说明我写在飞书：https://mcndg9yue1j0.feishu.cn/wiki/D6rPw8SnVizcq3kbtIVcqtAKn3f
-在这个仓库里，我把那套思路开源成可直接克隆的目录约定，并吸收了 **Andrej Karpathy** 公开分享过的个人知识库想法——原始材料先进库、再由模型参与整理成可浏览的 Markdown 结构、平时以问答和报告迭代、辅以体检把结构保持干净。
+## 能做什么
 
-## 主要特性
+| 能力 | 使用方式 |
+| --- | --- |
+| 收录材料 | 保存原文和来源，提炼核心观点，同步知识索引与相关概念 |
+| 查询知识 | 查找已收录的证据，回答时附条目链接；没有依据时明确说明 |
+| 更新知识 | 重复正文复用已有条目，来源修订保留旧原文，不同观点并列呈现 |
 
-- **本地优先**：内容落在 `knowledge/*.md`，Obsidian 打开即可协作阅读。
-- **inbox → 正式条目**：手动素材走 `inbox/manual/`（`pending` / `processed` / `review`）；音视频可走 `inbox/video/` 并可选转写。
-- **先索引再深入**：`knowledge/_index.md` 与 `knowledge/concepts/` 适合作为检索入口，需要细节再打开单篇的 `## 原始内容`。
-- **编译与导航**：`compile` 维护概念层与索引关联。
-- **查询可沉淀**：`find` 支持把主题检索整理进 `knowledge/reports/`。
-- **健康与整理**：`health` / `tidy` 做结构检查与归一化。
-- **Claude Code**：`.claude/skills/kb/` 提供 `/kb` 工作流（见 `.claude/skills/kb/SKILL.md`）。
+这些操作由两个 skill 完成：[kb-ingest](skills/kb-ingest/SKILL.md) 负责收录与更新，[kb-search](skills/kb-search/SKILL.md) 负责检索与回答。查询默认不修改文件；只有你明确要求保存时才入库。
 
-## 系统逻辑闭环
+## 开始使用
 
-```mermaid
-flowchart LR
-    rawInput["RawInput: manualOrMedia"] --> ingest["Ingest: kbAddOrAddVideo"]
-    ingest --> entries["Entries: knowledgeMd"]
-    entries --> compile["Compile: knowledgeOpsCompile"]
-    compile --> concepts["Concepts: knowledgeConcepts"]
-    compile --> indexNode["Index: knowledge_index"]
-    entries --> query["Query: knowledgeOpsFind"]
-    concepts --> query
-    query --> reports["Reports: knowledgeReports"]
-    entries --> healthNode["Health: knowledgeOpsHealthOrTidy"]
-    healthNode --> reports
-```
+你需要一个能读取、搜索和编辑本地文件，并支持 skill 的 Agent，以及一个用于存放知识的项目目录。
 
+本项目提供 **Codex** 和 **Claude Code** 的接入指南。文本与 Markdown 入库不需要额外安装 Python、Node.js 包或配置 API Key；Agent 本身的登录与使用条件仍由客户端决定。
 
+将这份模板提供给 Agent，填写下面的项目路径和客户端名称后发送：
 
-三条常用流：
+> 请阅读这份 LLM Wiki 模板中的 INSTALL.md，将知识库接入「我的项目绝对路径」。我使用的客户端是「Codex / Claude Code，填写实际使用的客户端」。请保留项目已有文件和知识，完成接入后确认两个 skill 可用，并查询一次知识库；没有完成验证的部分请明确说明。
 
-1. **入库流**：原始资料进入 `inbox`，形成 `knowledge/*.md` 知识条目
-2. **编译流**：`compile` 生成概念层与索引，形成导航网络
-3. **查询与体检流**：`find/health/tidy` 产出报告并反哺知识库质量
+Agent 会按[接入指南](INSTALL.md)放置知识库骨架、安装项目级 skill，并追加读取规则。知识保存在目标项目的 `knowledge/` 目录下。
 
-## 分层架构
+## 日常怎么用
 
-- **内容层（Source of Truth）**：`knowledge/`
-  - `knowledge/*.md`：时间线知识条目（原始内容 + 核心观点）
-  - `knowledge/concepts/`：编译后的概念导航层
-  - `knowledge/reports/`：查询报告与健康检查报告
-- **自动化层（Automation）**：`.claude/skills/kb/`
-  - `SKILL.md`：`/kb` 命令约定
-  - `scripts/knowledge_ops.py`：`find/compile/health/tidy`
-  - `scripts/video_ingest.py`：音视频入库与转写
-- **消费层（Frontend & Agent）**：Obsidian + Claude Code
-  - Obsidian 用于浏览、链接、可视化
-  - Claude Code 负责增量维护和问答研究
+**收录一份笔记**
 
-## 5 分钟快速跑通（最小闭环）
+> 请把 `/我的项目/材料/读书笔记.md` 收录到本项目知识库。
 
-### 1) 安装
+**收录一篇网页**
 
-```bash
-git clone https://github.com/dingshuxin353/ai-knowledge-vault.git
-cd ai-knowledge-vault
-pip3 install -r requirements.txt
-```
+> 请把这篇文章收录到本项目知识库：文章链接。
 
-### 2) 准备一条待处理素材
+网页入库使用当前 Agent 已有的读取能力。无法取得正文时，需要你提供文本；只有明确选择收录片段后，才会按片段保存并注明范围。
 
-把任意 Markdown 放到 `knowledge/inbox/manual/pending/`，或在 Claude Code 里使用 `/kb add`。
-如果你已经批量放入了 `pending/`，可继续在 Claude Code 中执行 `/kb process-pending` 进行入库整理。
+**查找已有知识**
 
-### 3) 编译概念层与索引
+> 查一下本项目知识库中关于课程设计的资料，整理关键观点并附上来源。
 
-```bash
-python3 .claude/skills/kb/scripts/knowledge_ops.py compile
-```
+**保存选定的对话内容**
 
-### 4) 做一次查询并沉淀报告
+> 把上面回答的第二段保存到知识库，来源注明为对话整理。
 
-```bash
-python3 .claude/skills/kb/scripts/knowledge_ops.py find "你的主题关键词"
-```
+## 材料如何保留
 
-### 5) 做一次健康检查
+每份知识条目保存来源、核心观点和完整原文；你的个人思考只在你明确提供时记录。输入的原文件不会被移动或删除。
 
-```bash
-python3 .claude/skills/kb/scripts/knowledge_ops.py health
-```
+概念页汇总相关材料，索引提供入口。入库会同步维护它们，无需再执行整理或编译命令。如果入库中断，Agent 应说明已经保存的内容和未完成步骤；让它继续这次入库即可补齐。
 
-按上述步骤执行后，预期会得到类似产物：
+已有旧版知识库的用户，请让 Agent 按 [INSTALL.md](INSTALL.md) 先备份，再迁移。更新模板也应遵循该指南，保留已有条目、索引及自定义内容。
 
-- 知识条目：`knowledge/*.md`
-- 概念层：`knowledge/concepts/*.md`
-- 索引入口：`knowledge/_index.md`
-- 报告输出：`knowledge/reports/*.md`
+## 使用范围与验证情况
 
-## 两层检索机制（为什么它在小中规模很实用）
+- 接受文本、Markdown、可读取的网页正文，以及你明确选定的对话内容。不负责音视频转写、扫描件识别或格式转换。
+- 同一知识库由一个 Agent 顺序写入，不保证多会话同时修改的安全性。
+- 检索与整理质量依赖 Agent。文件搜索和单一索引面向个人知识管理，不承诺任意规模下的速度与召回率。
+- 2026-09-08 已在 **Codex CLI 0.153.4** 实测 skill 发现、规则加载、入库和新会话检索。无 Git 项目请从项目根目录启动 Codex，以便自动发现项目 skill。
+- **Claude Code 的端到端行为尚未验证**，当前提供接入说明。
 
-- 第一层：读取 `knowledge/_index.md` + `knowledge/concepts/*.md`，先定位主题和范围
-- 第二层：按需展开具体条目的 `## 原始内容`，只在必要时读取细节证据
+## 许可证
 
-这种分层可以在不引入复杂 RAG 工程的前提下，在个人知识库规模内保持较好的查询质量与响应效率。
-
-## 目录地图（关键部分）
-
-```text
-knowledge/
-  _index.md
-  concepts/
-  reports/
-  inbox/
-    manual/
-      pending/
-      processed/
-      review/
-    video/
-      raw/
-      transcripts/
-      logs/
-.claude/skills/kb/
-docs/
-```
-
-说明：本仓库以模板形式分发，`knowledge/concepts/` 下的概念页通常需要在本地运行 `compile` 后逐步生成。
-
-## 可选能力：视频/音频转写
-
-需要：
-
-- `pip3 install dashscope`
-- 已安装 `ffmpeg` 与 `ffprobe`
-- 配置 `.claude/skills/kb/config.local.json`（或 `DASHSCOPE_API_KEY`）
-
-运行：
-
-```bash
-python3 .claude/skills/kb/scripts/video_ingest.py
-```
-
-更多细节见 `[docs/video-transcription.md](./docs/video-transcription.md)`。
-
-## 适合谁 / 不适合谁
-
-适合：
-
-- 想把长期研究资料沉淀为可被 AI 持续操作的知识系统
-- 想在本地 Markdown 上构建可迁移、可追溯的个人 wiki
-- 想让每次问答结果都“累积进知识库”而非一次性对话
-
-不适合：
-
-- 只需要临时笔记，不需要结构化维护
-- 期望零配置云托管 SaaS 体验，不想维护本地文件与脚本
-
-## 文档入口
-
-- 架构说明：`[docs/architecture.md](./docs/architecture.md)`
-- 安装指南：`[docs/installation.md](./docs/installation.md)`
-- 视频转写说明：`[docs/video-transcription.md](./docs/video-transcription.md)`
-- 概念层目录说明：`[knowledge/concepts/README.md](./knowledge/concepts/README.md)`
-- 报告目录说明：`[knowledge/reports/README.md](./knowledge/reports/README.md)`
-- 手动入库目录说明：`[knowledge/inbox/manual/README.md](./knowledge/inbox/manual/README.md)`
-- 视频入库目录说明：`[knowledge/inbox/video/README.md](./knowledge/inbox/video/README.md)`
-
-## 下一步建议
-
-- 先向 `knowledge/inbox/manual/pending/` 放入少量原始材料试跑
-- 执行一次 `compile + find + health`，观察概念层与报告如何联动
-- 按自身主题与领域，扩展 `.claude/skills/kb/scripts/` 中的处理策略
-
-## 开源许可
-
-MIT License
+[MIT License](LICENSE)
